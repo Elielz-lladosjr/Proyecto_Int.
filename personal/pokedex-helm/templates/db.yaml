@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.db.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        env:
+        - name: POSTGRES_USER
+          value: {{ .Values.api.env.dbUser | quote }}
+        - name: POSTGRES_PASSWORD
+          value: {{ .Values.api.env.dbPassword | quote }}
+        - name: POSTGRES_DB
+          value: {{ .Values.api.env.dbName | quote }}
+        ports:
+        - containerPort: {{ .Values.db.containerPort }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.db.serviceName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: {{ .Values.db.containerPort }}

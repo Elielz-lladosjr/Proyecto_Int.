@@ -1,0 +1,36 @@
+# --- CONFIGURACIÓN GLOBAL ---
+replicaCount: 2
+namespace: proyecto-eliel
+
+# --- IMÁGENES ---
+images:
+  api: api-nest:latest
+  frontend: front-pokedex:latest
+  db: db-postgres:latest
+
+# --- CONFIGURACIÓN DE LA API (NESTJS) ---
+api:
+  name: api-deployment
+  serviceName: api-service
+  containerPort: 3000
+  nodePort: 30007
+  env:
+    dbHost: "db"
+    dbPort: "5432"
+    dbUser: "admin"
+    dbPassword: "admin"
+    dbName: "nest_db"
+
+# --- CONFIGURACIÓN DEL FRONTEND (REACT) ---
+frontend:
+  name: frontend-deployment
+  serviceName: frontend-service
+  # ¡Cambiado a 3000 para coincidir con el EXPOSE de tu Dockerfile!
+  containerPort: 5173 
+  nodePort: 30005
+
+# --- CONFIGURACIÓN DE LA BASE DE DATOS ---
+db:
+  name: db-deployment
+  serviceName: db
+  containerPort: 5432
