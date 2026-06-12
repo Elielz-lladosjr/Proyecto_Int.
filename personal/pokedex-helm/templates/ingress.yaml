@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: pokedex-eliel.duckdns.org
+  - host: gastrocore-aliouneeliel.duckdns.org
     http:
       paths:
       # El tráfico normal de la web va al Frontend
